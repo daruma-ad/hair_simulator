@@ -11,37 +11,37 @@ const CONFIG = {
     kimonos: [
         {
             id: 1,
-            name: 'Hair Style 1',
-            image: 'images/NO1.png', // ファッション版の画像をプレースホルダとして流用
+            name: 'Hair NO1',
+            image: 'images/NO1.png',
             description: 'Classic bob style with clean lines.'
         },
         {
             id: 2,
-            name: 'Hair Style 2',
+            name: 'Hair NO2',
             image: 'images/NO2.png',
             description: 'Elegant long layers for a sophisticated look.'
         },
         {
             id: 3,
-            name: 'Hair Style 3',
+            name: 'Hair NO3',
             image: 'images/NO3.png',
             description: 'Trendy short cut with modern texture.'
         },
         {
             id: 4,
-            name: 'Hair Style 4',
+            name: 'Hair NO4',
             image: 'images/NO4.png',
             description: 'Beautiful wavy style perfect for volume.'
         },
         {
             id: 5,
-            name: 'Hair Style 5',
+            name: 'Hair NO5',
             image: 'images/NO5.png',
             description: 'Stylish medium length with natural flow.'
         },
         {
             id: 6,
-            name: 'Hair Style 6',
+            name: 'Hair NO6',
             image: 'images/NO6.png',
             description: 'Chic pixie cut for a bold statement.'
         }
