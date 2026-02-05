@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="AI髪型シミュレーション - あなたに似合う髪型をAIで体験">
+    <title>AI髪型シミュレーション</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">💇‍♀️</span>
+                <h1>AI髪型シミュレーション</h1>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- ステップ1: 髪型選択 -->
+            <section class="step-section" id="step1">
+                <div class="step-header">
+                    <span class="step-number">1</span>
+                    <h2>試したい髪型を選んでください</h2>
+                </div>
+                <div class="kimono-grid" id="kimonoGrid">
+                    <!-- 着物画像はJSで動的に生成 -->
+                </div>
+            </section>
+
+            <!-- ステップ2: 写真アップロード -->
+            <section class="step-section" id="step2">
+                <div class="step-header">
+                    <span class="step-number">2</span>
+                    <h2>お顔の写真をアップロード</h2>
+                </div>
+                <div class="upload-area" id="uploadArea">
+                    <!-- 透明なinputを最前面に配置して全面をタップポイントにする -->
+                    <input type="file" id="photoInput" accept="image/*"
+                        style="position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 10;">
+                    <div class="upload-placeholder" id="uploadPlaceholder">
+                        <div class="upload-icon">📸</div>
+                        <p class="upload-text">ここをタップして写真を選択</p>
+                        <p class="upload-hint">または撮影してください</p>
+                    </div>
+                    <img id="previewImage" class="preview-image" alt="プレビュー">
+                </div>
+                <p class="photo-tip">💡 正面を向いた、お顔がはっきり写った写真がおすすめです</p>
+            </section>
+
+            <!-- ステップ3: 生成ボタン -->
+            <section class="step-section" id="step3">
+                <button class="generate-btn" id="generateBtn" disabled>
+                    <span class="btn-icon">✨</span>
+                    <span class="btn-text">新しい自分を生成する</span>
+                </button>
+                <div class="loading-indicator" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>AIが新しい髪型を生成中...</p>
+                </div>
+            </section>
+
+            <!-- ステップ4: 結果表示 -->
+            <section class="result-section" id="resultSection">
+                <div class="step-header">
+                    <span class="step-number">✓</span>
+                    <h2>あなたの新しい髪型</h2>
+                </div>
+                <div class="result-container">
+                    <img id="resultImage" class="result-image" alt="生成結果">
+                </div>
+                <div class="result-actions">
+                    <button class="action-btn save-btn" id="saveBtn">
+                        <span>💾</span> 保存する
+                    </button>
+                    <button class="action-btn share-btn" id="shareBtn">
+                        <span>📤</span> シェアする
+                    </button>
+                    <button class="action-btn retry-btn" id="retryBtn">
+                        <span>🔄</span> 別の髪型を試す
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- アクセスコード入力モーダル -->
+        <div class="modal-overlay" id="apiModal">
+            <div class="modal-content">
+                <h3>🔒 アクセス制限</h3>
+                <p>アプリを利用するには合言葉を入力してください</p>
+                <input type="text" id="apiKeyInput" placeholder="合言葉を入力...">
+                <button class="modal-btn" id="saveApiKey">認証</button>
+            </div>
+        </div>
+
+        <!-- 設定ボタン -->
+        <button class="settings-btn" id="settingsBtn" title="アクセスコード設定">🔑</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

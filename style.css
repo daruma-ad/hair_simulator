@@ -1,0 +1,660 @@
+/* ===================================
+   着物バーチャル試着 - スタイルシート
+   =================================== */
+
+:root {
+    /* カラーパレット - サロン・清潔感（ミントグリーン） */
+    --primary: #52b788;
+    --primary-light: #95d5b2;
+    --primary-dark: #2d6a4f;
+    --accent: #ff9f1c;
+    --accent-light: #ffbf69;
+
+    --bg-dark: #f8f9fa;
+    --bg-card: #ffffff;
+    --bg-card-hover: #e9ecef;
+
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --text-muted: #adb5bd;
+
+    --success: #2a9d8f;
+    --warning: #ffb703;
+    --error: #e63946;
+
+    /* グラデーション */
+    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    --gradient-glow: radial-gradient(circle at center, rgba(82, 183, 136, 0.2) 0%, transparent 70%);
+
+    /* シャドウ */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px rgba(139, 76, 112, 0.4);
+
+    /* レイアウト */
+    --header-height: 60px;
+    --border-radius: 16px;
+    --border-radius-sm: 8px;
+
+    /* アニメーション */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* リセット & ベース */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Noto Sans JP', 'Zen Maru Gothic', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    min-height: 100dvh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* 背景エフェクト */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-glow);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* アプリコンテナ */
+.app-container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===================================
+   ヘッダー
+   =================================== */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background: rgba(22, 33, 62, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(139, 76, 112, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.logo h1 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ===================================
+   メインコンテンツ
+   =================================== */
+.main-content {
+    flex: 1;
+    padding: 1.5rem 1rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* セクション共通 */
+.step-section {
+    margin-bottom: 2rem;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow-glow);
+}
+
+.step-header h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* ===================================
+   着物グリッド
+   =================================== */
+.kimono-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.kimono-card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    border: 3px solid transparent;
+}
+
+.kimono-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
+    z-index: 1;
+    opacity: 0.8;
+    transition: var(--transition-normal);
+}
+
+.kimono-card:hover::before,
+.kimono-card.selected::before {
+    opacity: 0.5;
+}
+
+.kimono-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-normal);
+}
+
+.kimono-card:hover img {
+    transform: scale(1.05);
+}
+
+.kimono-card.selected {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.kimono-card .kimono-name {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    z-index: 2;
+}
+
+.kimono-card .check-icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 24px;
+    height: 24px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0);
+    transition: var(--transition-fast);
+}
+
+.kimono-card.selected .check-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ===================================
+   写真アップロード
+   =================================== */
+.upload-area {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 300px;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+    background: var(--bg-card);
+    border: 2px dashed rgba(139, 76, 112, 0.5);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.upload-area:hover,
+.upload-area.has-image {
+    border-color: var(--primary-light);
+    background: var(--bg-card-hover);
+}
+
+.upload-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: var(--transition-normal);
+    pointer-events: none;
+    /* タップイベントを親のlabelに通す */
+}
+
+.upload-area.has-image .upload-placeholder {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+.upload-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.upload-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.upload-area.has-image .preview-image {
+    opacity: 1;
+}
+
+.photo-tip {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.75rem;
+}
+
+/* ===================================
+   生成ボタン
+   =================================== */
+.generate-btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-md);
+}
+
+.generate-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.generate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.generate-btn .btn-icon {
+    font-size: 1.3rem;
+}
+
+/* ローディング */
+.loading-indicator {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.loading-indicator.active {
+    display: flex;
+}
+
+.loading-indicator+.generate-btn {
+    display: none;
+}
+
+.loading-indicator.active+.generate-btn {
+    display: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(139, 76, 112, 0.3);
+    border-top-color: var(--primary-light);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-indicator p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ===================================
+   結果表示
+   =================================== */
+.result-section {
+    display: none;
+    animation: fadeInUp 0.5s ease;
+}
+
+.result-section.active {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 1.5rem;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-card);
+}
+
+.result-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.action-btn {
+    flex: 1;
+    min-width: 100px;
+    max-width: 150px;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: var(--transition-fast);
+}
+
+.save-btn {
+    background: var(--success);
+    color: var(--bg-dark);
+}
+
+.share-btn {
+    background: var(--accent);
+    color: var(--bg-dark);
+}
+
+.retry-btn {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--primary);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===================================
+   モーダル
+   =================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.modal-content p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid rgba(139, 76, 112, 0.5);
+    border-radius: var(--border-radius-sm);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: var(--transition-fast);
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+}
+
+.modal-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.modal-btn:hover {
+    opacity: 0.9;
+}
+
+/* 設定ボタン */
+.settings-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-normal);
+    z-index: 50;
+}
+
+/* ===================================
+   レスポンシブ
+   =================================== */
+@media (min-width: 480px) {
+    .kimono-grid {
+        gap: 1rem;
+    }
+
+    .logo h1 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        padding: 2rem;
+    }
+
+    .step-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .upload-area {
+        max-width: 350px;
+    }
+}
+
+/* セーフエリア対応 */
+@supports (padding: max(0px)) {
+    .header {
+        padding-top: max(0px, env(safe-area-inset-top));
+    }
+
+    .main-content {
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+    }
+
+    .settings-btn {
+        bottom: max(1.5rem, calc(env(safe-area-inset-bottom) + 1rem));
+    }
+}
